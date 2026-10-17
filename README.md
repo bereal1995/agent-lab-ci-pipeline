@@ -36,3 +36,4 @@ Node 24.15 이상 24.x가 필요합니다(`engines`, `volta.node`). `.npmrc`의 
 - PR을 거쳐야 merge 가능(승인 0명)
 - `ci-pass` 통과 필수, 최신 main 기준(strict)
 - force push·브랜치 삭제 금지, 우회 권한 없음
+- merge 방식은 squash만 허용
