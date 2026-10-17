@@ -10,12 +10,16 @@ const FILTER_LABEL: Record<Filter, string> = {
 
 export function App() {
   const [todos, setTodos] = useState(loadTodos);
-  const [filter, setFilter] = useState<Filter>("all");
+  const [filter, setFilter] = useState<Filter>(() => (localStorage.getItem("agent-lab.filter") as Filter) ?? "all");
   const [draft, setDraft] = useState("");
 
   useEffect(() => {
     saveTodos(todos);
   }, [todos]);
+
+  useEffect(() => {
+    localStorage.setItem("agent-lab.filter", filter);
+  }, [filter]);
 
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
