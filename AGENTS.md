@@ -38,6 +38,7 @@ CI 검증 파이프라인 실습용 할 일 앱. React 19 + TypeScript + Vite, p
 - 기존 export 이름과 시그니처(`TitleView`, `PriorityField`, `orderTodos`, `DueField`)는 유지한다. 새 파일·새 export 추가는 자유.
 - 상태 변경은 props의 `onUpdate(patch)`로만 한다(`TodoPatch` = `title`/`priority`/`dueDate`). 날짜는 `src/date.ts`의 `isValidLocalDate`, `todayLocal`을 쓴다.
 - 테스트: 순수 로직 테스트와 컴포넌트 테스트(`src/features/<기능>/*.test.tsx`)를 함께 추가한다. 화면 흐름은 `e2e/<기능>.spec.ts`.
+- e2e는 worktree마다 다른 포트로 돌린다: `E2E_PORT=<4174~> pnpm test:e2e`. 기본 4173을 같이 쓰면 다른 worktree의 서버를 테스트하게 된다.
 
 ### 기능 명세
 - **우선순위**: 항목마다 select(접근 이름 `<제목> 우선순위`, 선택지 높음/보통/낮음 → `high`/`normal`/`low`). `orderTodos`는 필터 적용 후 목록을 high > normal > low로 정렬하고, 같은 우선순위는 원래 순서를 유지한다(stable). 입력 배열을 바꾸지 않는다.
