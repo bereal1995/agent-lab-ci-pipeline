@@ -1,5 +1,5 @@
 import { useEffect, useState, type FormEvent } from "react";
-import { loadTodos, saveTodos } from "./storage";
+import { loadFilter, loadTodos, saveFilter, saveTodos } from "./storage";
 import { addTodo, filterTodos, MAX_TITLE_LENGTH, removeTodo, toggleTodo, type Filter } from "./todos";
 
 const FILTER_LABEL: Record<Filter, string> = {
@@ -10,7 +10,7 @@ const FILTER_LABEL: Record<Filter, string> = {
 
 export function App() {
   const [todos, setTodos] = useState(loadTodos);
-  const [filter, setFilter] = useState<Filter>(() => (localStorage.getItem("agent-lab.filter") as Filter) ?? "all");
+  const [filter, setFilter] = useState<Filter>(loadFilter);
   const [draft, setDraft] = useState("");
 
   useEffect(() => {
@@ -18,7 +18,7 @@ export function App() {
   }, [todos]);
 
   useEffect(() => {
-    localStorage.setItem("agent-lab.filter", filter);
+    saveFilter(filter);
   }, [filter]);
 
   const handleSubmit = (event: FormEvent) => {
