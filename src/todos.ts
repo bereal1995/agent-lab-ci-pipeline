@@ -9,7 +9,7 @@ export type Filter = "all" | "active" | "done";
 export const MAX_TITLE_LENGTH = 80;
 
 export function normalizeTitle(raw: string): string | null {
-  const title = raw.trim().replace(/\s+/g, " ");
+  const title = raw.trim();
   if (title.length === 0 || title.length > MAX_TITLE_LENGTH) {
     return null;
   }
