@@ -21,6 +21,9 @@ describe("브라우저 저장소 접근 경계", () => {
     ["별칭 변수 경유", `const w = window;\nexport const a = w.localStorage;`],
     ["대괄호 접근", `export const a = window["localStorage"];`],
     ["구조 분해", `const { localStorage: ls } = window;\nexport const a = ls;`],
+    ["템플릿 문자열 키", "export const a = window[`localStorage`];"],
+    ["계산된 키 구조 분해", `const { ["sessionStorage"]: ss } = window;\nexport const a = ss;`],
+    ["템플릿 키 구조 분해", "const { [`localStorage`]: ls } = window;\nexport const a = ls;"],
   ])("src 코드에서 %s을 막는다", async (_, code) => {
     expect(await storageErrors(code, "src/Feature.tsx")).not.toHaveLength(0);
   });

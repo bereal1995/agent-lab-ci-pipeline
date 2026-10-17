@@ -39,6 +39,18 @@ export default tseslint.config(
           selector: `ObjectPattern > Property[key.name=${STORAGE_NAMES}]`,
           message: "브라우저 저장소는 src/storage.ts의 함수로만 접근하세요.",
         },
+        {
+          selector: `MemberExpression[computed=true][property.type="TemplateLiteral"][property.quasis.0.value.cooked=${STORAGE_NAMES}]`,
+          message: "브라우저 저장소는 src/storage.ts의 함수로만 접근하세요.",
+        },
+        {
+          selector: `ObjectPattern > Property[computed=true][key.value=${STORAGE_NAMES}]`,
+          message: "브라우저 저장소는 src/storage.ts의 함수로만 접근하세요.",
+        },
+        {
+          selector: `ObjectPattern > Property[computed=true][key.type="TemplateLiteral"][key.quasis.0.value.cooked=${STORAGE_NAMES}]`,
+          message: "브라우저 저장소는 src/storage.ts의 함수로만 접근하세요.",
+        },
       ],
     },
   },
