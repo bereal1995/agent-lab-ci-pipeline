@@ -1,10 +1,11 @@
-import { isValidLocalDate, todayLocal } from "../../date";
+import { isValidLocalDate } from "../../date";
 import type { FeatureFieldProps } from "../types";
 import { isOverdue } from "./overdue";
+import { useToday } from "./useToday";
 
 /** 마감일 입력. 비우면 `dueDate: null`, 지난 항목에는 "기한 지남"을 보인다. */
 export function DueField({ todo, onUpdate }: FeatureFieldProps) {
-  const overdue = isOverdue(todo, todayLocal());
+  const overdue = isOverdue(todo, useToday());
 
   return (
     <>
