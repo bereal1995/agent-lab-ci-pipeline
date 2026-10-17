@@ -1,6 +1,17 @@
-import type { Todo } from "../../todos";
+import { PRIORITIES, type Priority, type Todo } from "../../todos";
 
-// 계약 자리: 우선순위 기능(feat/priority)이 정렬을 채운다. 입력을 바꾸지 않는다.
+const RANK: Record<Priority, number> = Object.fromEntries(PRIORITIES.map((p, i) => [p, i])) as Record<
+  Priority,
+  number
+>;
+
+/**
+ * 필터 적용 후 목록을 high > normal > low로 정렬한다.
+ * 같은 우선순위는 원래 순서를 유지한다(stable). 입력 배열은 바꾸지 않는다.
+ */
 export function orderTodos(todos: readonly Todo[]): Todo[] {
-  return [...todos];
+  return todos
+    .map((todo, index) => ({ todo, index }))
+    .sort((a, b) => RANK[a.todo.priority] - RANK[b.todo.priority] || a.index - b.index)
+    .map(({ todo }) => todo);
 }
