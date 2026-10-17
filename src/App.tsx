@@ -1,6 +1,8 @@
 import { useEffect, useState, type FormEvent } from "react";
 import { loadFilter, loadTodos, saveFilter, saveTodos } from "./storage";
-import { addTodo, filterTodos, MAX_TITLE_LENGTH, removeTodo, toggleTodo, type Filter } from "./todos";
+import { orderTodos } from "./features/priority/order";
+import { TodoItem } from "./TodoItem";
+import { addTodo, filterTodos, MAX_TITLE_LENGTH, removeTodo, toggleTodo, updateTodo, type Filter } from "./todos";
 
 const FILTER_LABEL: Record<Filter, string> = {
   all: "전체",
@@ -27,7 +29,7 @@ export function App() {
     setDraft("");
   };
 
-  const visible = filterTodos(todos, filter);
+  const visible = orderTodos(filterTodos(todos, filter));
   const remaining = todos.filter((todo) => !todo.done).length;
 
   return (
@@ -55,23 +57,13 @@ export function App() {
 
       <ul aria-label="할 일 목록">
         {visible.map((todo) => (
-          <li key={todo.id} className={todo.done ? "is-done" : undefined}>
-            <label>
-              <input
-                type="checkbox"
-                checked={todo.done}
-                onChange={() => setTodos((current) => toggleTodo(current, todo.id))}
-              />
-              {todo.title}
-            </label>
-            <button
-              type="button"
-              aria-label={`${todo.title} 삭제`}
-              onClick={() => setTodos((current) => removeTodo(current, todo.id))}
-            >
-              삭제
-            </button>
-          </li>
+          <TodoItem
+            key={todo.id}
+            todo={todo}
+            onToggle={() => setTodos((current) => toggleTodo(current, todo.id))}
+            onRemove={() => setTodos((current) => removeTodo(current, todo.id))}
+            onUpdate={(patch) => setTodos((current) => updateTodo(current, todo.id, patch))}
+          />
         ))}
       </ul>
 

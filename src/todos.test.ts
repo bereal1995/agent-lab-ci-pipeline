@@ -1,9 +1,18 @@
 import { describe, expect, it } from "vitest";
-import { addTodo, filterTodos, MAX_TITLE_LENGTH, normalizeTitle, removeTodo, toggleTodo, type Todo } from "./todos";
+import {
+  addTodo,
+  filterTodos,
+  MAX_TITLE_LENGTH,
+  normalizeTitle,
+  removeTodo,
+  toggleTodo,
+  updateTodo,
+  type Todo,
+} from "./todos";
 
 const sample: Todo[] = [
-  { id: "1", title: "우유 사기", done: false },
-  { id: "2", title: "운동", done: true },
+  { id: "1", title: "우유 사기", done: false, priority: "normal", dueDate: null },
+  { id: "2", title: "운동", done: true, priority: "high", dueDate: "2026-10-20" },
 ];
 
 describe("normalizeTitle", () => {
@@ -20,7 +29,13 @@ describe("normalizeTitle", () => {
 
 describe("todo 조작", () => {
   it("추가하면 끝에 미완료로 붙는다", () => {
-    expect(addTodo(sample, "책 읽기", "3").at(-1)).toEqual({ id: "3", title: "책 읽기", done: false });
+    expect(addTodo(sample, "책 읽기", "3").at(-1)).toEqual({
+      id: "3",
+      title: "책 읽기",
+      done: false,
+      priority: "normal",
+      dueDate: null,
+    });
   });
 
   it("잘못된 제목은 추가하지 않는다", () => {
@@ -39,5 +54,36 @@ describe("todo 조작", () => {
     expect(filterTodos(sample, "active").map((todo) => todo.id)).toEqual(["1"]);
     expect(filterTodos(sample, "done").map((todo) => todo.id)).toEqual(["2"]);
     expect(filterTodos(sample, "all")).toHaveLength(2);
+  });
+});
+
+describe("updateTodo", () => {
+  it("해당 항목의 허용된 필드만 새 객체로 바꾸고 입력은 그대로 둔다", () => {
+    const before = structuredClone(sample);
+    const next = updateTodo(sample, "1", { priority: "low", dueDate: "2026-11-01" });
+    expect(next[0]).toEqual({ ...sample[0], priority: "low", dueDate: "2026-11-01" });
+    expect(next[1]).toBe(sample[1]);
+    expect(sample).toEqual(before);
+  });
+
+  it("제목은 정규화해서 저장한다", () => {
+    expect(updateTodo(sample, "1", { title: "  두유   사기 " })[0]?.title).toBe("두유 사기");
+  });
+
+  it("마감일을 null로 지울 수 있다", () => {
+    expect(updateTodo(sample, "2", { dueDate: null })[1]?.dueDate).toBeNull();
+  });
+
+  it("무효한 값이 하나라도 있으면 아무것도 바꾸지 않는다", () => {
+    for (const patch of [
+      { title: "   " },
+      { title: "새 제목", dueDate: "2026-02-30" },
+      { dueDate: "2026/10/20" },
+      { priority: "urgent" as never },
+    ]) {
+      const next = updateTodo(sample, "1", patch);
+      expect(next).toEqual(sample);
+      expect(next).not.toBe(sample);
+    }
   });
 });

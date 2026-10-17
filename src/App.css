@@ -31,11 +31,24 @@ li {
   padding: 6px 0;
 }
 
-.is-done label {
+.is-done .todo-main {
   text-decoration: line-through;
   opacity: 0.6;
 }
 
 [aria-pressed="true"] {
   font-weight: 700;
+}
+
+.todo-main {
+  display: flex;
+  flex: 1;
+  gap: 8px;
+  align-items: center;
+}
+
+.todo-meta {
+  display: flex;
+  gap: 8px;
+  align-items: center;
 }
