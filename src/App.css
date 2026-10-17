@@ -1,0 +1,41 @@
+:root {
+  font-family: system-ui, sans-serif;
+  color-scheme: light dark;
+}
+
+.app {
+  max-width: 480px;
+  margin: 48px auto;
+  padding: 0 16px;
+}
+
+form,
+.filters,
+li {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+form input {
+  flex: 1;
+}
+
+ul {
+  padding: 0;
+  list-style: none;
+}
+
+li {
+  justify-content: space-between;
+  padding: 6px 0;
+}
+
+.is-done label {
+  text-decoration: line-through;
+  opacity: 0.6;
+}
+
+[aria-pressed="true"] {
+  font-weight: 700;
+}
