@@ -40,7 +40,7 @@ export default tseslint.config(
           message: "브라우저 저장소는 src/storage.ts의 함수로만 접근하세요.",
         },
         {
-          selector: `MemberExpression[computed=true][property.type="TemplateLiteral"][property.quasis.0.value.cooked=${STORAGE_NAMES}]`,
+          selector: `MemberExpression[computed=true][property.type="TemplateLiteral"][property.expressions.length=0][property.quasis.0.value.cooked=${STORAGE_NAMES}]`,
           message: "브라우저 저장소는 src/storage.ts의 함수로만 접근하세요.",
         },
         {
@@ -48,7 +48,7 @@ export default tseslint.config(
           message: "브라우저 저장소는 src/storage.ts의 함수로만 접근하세요.",
         },
         {
-          selector: `ObjectPattern > Property[computed=true][key.type="TemplateLiteral"][key.quasis.0.value.cooked=${STORAGE_NAMES}]`,
+          selector: `ObjectPattern > Property[computed=true][key.type="TemplateLiteral"][key.expressions.length=0][key.quasis.0.value.cooked=${STORAGE_NAMES}]`,
           message: "브라우저 저장소는 src/storage.ts의 함수로만 접근하세요.",
         },
       ],

@@ -28,6 +28,11 @@ describe("브라우저 저장소 접근 경계", () => {
     expect(await storageErrors(code, "src/Feature.tsx")).not.toHaveLength(0);
   });
 
+  it("저장소가 아닌 키는 막지 않는다", async () => {
+    const code = "const cache: Record<string, string> = {};\nconst id = 1;\nexport const a = cache[`localStorage${id}`];";
+    expect(await storageErrors(code, "src/Feature.tsx")).toHaveLength(0);
+  });
+
   it("src/storage.ts와 테스트 파일은 허용한다", async () => {
     const code = `export const a = window.localStorage.getItem("k");`;
     expect(await storageErrors(code, "src/storage.ts")).toHaveLength(0);
