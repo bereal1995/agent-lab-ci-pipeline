@@ -18,7 +18,7 @@ Node 24.15 이상 24.x가 필요합니다(`engines`, `volta.node`). `.npmrc`의 
 
 | 명령 | 내용 |
 | --- | --- |
-| `pnpm lint` | ESLint |
+| `pnpm lint` | ESLint. `src/storage.ts` 밖에서 localStorage·sessionStorage를 쓰면 실패 |
 | `pnpm typecheck` | `tsc -b` |
 | `pnpm test` | Vitest 단위·컴포넌트 테스트 |
 | `pnpm test:e2e` | Playwright E2E(chromium). 처음 한 번 `pnpm exec playwright install chromium` |
