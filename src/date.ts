@@ -1,14 +1,21 @@
 const LOCAL_DATE = /^(\d{4})-(\d{2})-(\d{2})$/;
 
-/** `YYYY-MM-DD` 형식이고 달력에 있는 날짜인지 본다(2026-02-30은 거부). */
+function daysInMonth(year: number, month: number): number {
+  if (month === 2) {
+    const leap = (year % 4 === 0 && year % 100 !== 0) || year % 400 === 0;
+    return leap ? 29 : 28;
+  }
+  return [4, 6, 9, 11].includes(month) ? 30 : 31;
+}
+
+/** `YYYY-MM-DD` 형식이고 달력에 있는 날짜인지 본다(2026-02-30은 거부). 연도는 1000~9999. */
 export function isValidLocalDate(value: string): boolean {
   const match = LOCAL_DATE.exec(value);
   if (match === null) {
     return false;
   }
   const [year, month, day] = [Number(match[1]), Number(match[2]), Number(match[3])];
-  const date = new Date(year, month - 1, day);
-  return date.getFullYear() === year && date.getMonth() === month - 1 && date.getDate() === day;
+  return year >= 1000 && month >= 1 && month <= 12 && day >= 1 && day <= daysInMonth(year, month);
 }
 
 /** 사용자 기기 시간대 기준 오늘 날짜. */

@@ -32,6 +32,7 @@ CI 검증 파이프라인 실습용 할 일 앱. React 19 + TypeScript + Vite, p
 | 우선순위 | `feat/priority` | `src/features/priority/**`, `e2e/priority.spec.ts` |
 | 마감일 | `feat/due` | `src/features/due/**`, `e2e/due.spec.ts` |
 | 제목 수정 | `feat/rename` | `src/features/rename/**`, `e2e/rename.spec.ts` |
+| 통합 검증 | `chore/integration` | `src/integration.test.tsx`, `e2e/integration.spec.ts` (기능 PR 3개가 모두 merge된 뒤에만) |
 
 - 소유 경로 밖 파일(`src/todos.ts`, `src/storage.ts`, `src/date.ts`, `src/App.tsx`, `src/TodoItem.tsx`, `src/features/types.ts`, 설정 파일 등)은 고치지 않는다. 꼭 필요하면 멈추고 PR 설명에 "계약 변경 요청"으로 이유를 적는다.
 - 기존 export 이름과 시그니처(`TitleView`, `PriorityField`, `orderTodos`, `DueField`)는 유지한다. 새 파일·새 export 추가는 자유.

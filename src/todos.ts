@@ -38,7 +38,8 @@ export function addTodo(todos: readonly Todo[], raw: string, id: string): Todo[]
 
 /** 패치 중 하나라도 무효면 아무것도 바꾸지 않고 새 배열을 돌려준다. */
 export function updateTodo(todos: readonly Todo[], id: string, patch: TodoPatch): Todo[] {
-  const next: TodoPatch = { ...patch };
+  // undefined인 키는 "바꾸지 않음"으로 본다. 펼쳐 넣으면 필드가 undefined가 된다.
+  const next: Partial<Todo> = {};
   if (patch.title !== undefined) {
     const title = normalizeTitle(patch.title);
     if (title === null) {
@@ -46,11 +47,17 @@ export function updateTodo(todos: readonly Todo[], id: string, patch: TodoPatch)
     }
     next.title = title;
   }
-  if (patch.priority !== undefined && !PRIORITIES.includes(patch.priority)) {
-    return [...todos];
+  if (patch.priority !== undefined) {
+    if (!PRIORITIES.includes(patch.priority)) {
+      return [...todos];
+    }
+    next.priority = patch.priority;
   }
-  if (patch.dueDate !== undefined && patch.dueDate !== null && !isValidLocalDate(patch.dueDate)) {
-    return [...todos];
+  if (patch.dueDate !== undefined) {
+    if (patch.dueDate !== null && !isValidLocalDate(patch.dueDate)) {
+      return [...todos];
+    }
+    next.dueDate = patch.dueDate;
   }
   return todos.map((todo) => (todo.id === id ? { ...todo, ...next } : todo));
 }

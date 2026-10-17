@@ -74,6 +74,10 @@ describe("updateTodo", () => {
     expect(updateTodo(sample, "2", { dueDate: null })[1]?.dueDate).toBeNull();
   });
 
+  it("undefined인 필드는 바꾸지 않는다", () => {
+    expect(updateTodo(sample, "1", { title: undefined, priority: undefined, dueDate: undefined })[0]).toEqual(sample[0]);
+  });
+
   it("무효한 값이 하나라도 있으면 아무것도 바꾸지 않는다", () => {
     for (const patch of [
       { title: "   " },

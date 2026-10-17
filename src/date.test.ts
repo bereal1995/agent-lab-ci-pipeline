@@ -9,6 +9,9 @@ describe("date", () => {
     expect(isValidLocalDate("2026-13-01")).toBe(false);
     expect(isValidLocalDate("2026-1-01")).toBe(false);
     expect(isValidLocalDate("2026-10-17T00:00")).toBe(false);
+    expect(isValidLocalDate("2100-02-29")).toBe(false);
+    expect(isValidLocalDate("2000-02-29")).toBe(true);
+    expect(isValidLocalDate("0099-01-01")).toBe(false);
   });
 
   it("오늘 날짜를 로컬 시간 기준으로 만든다", () => {
