@@ -28,6 +28,10 @@ export function TitleView({ todo, onUpdate }: FeatureFieldProps) {
         onBlur={finishEditing}
         onChange={(event) => setDraft(event.target.value)}
         onKeyDown={(event) => {
+          // 한글 등 IME 조합을 확정하는 Enter는 저장으로 보지 않는다.
+          if (event.nativeEvent.isComposing) {
+            return;
+          }
           if (event.key === "Enter") {
             event.preventDefault();
             finishEditing();

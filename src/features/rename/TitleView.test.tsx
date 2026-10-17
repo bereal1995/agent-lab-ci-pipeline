@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it, vi } from "vitest";
 import type { Todo } from "../../todos";
@@ -32,6 +32,20 @@ describe("TitleView", () => {
     expect(onUpdate).toHaveBeenCalledOnce();
     expect(onUpdate).toHaveBeenCalledWith({ title: "장보기 목록" });
     expect(screen.queryByRole("textbox")).not.toBeInTheDocument();
+  });
+
+  it("IME 조합 중 Enter는 저장하지 않는다", async () => {
+    const user = userEvent.setup();
+    const onUpdate = vi.fn();
+    render(<TitleView todo={todo} onUpdate={onUpdate} />);
+
+    await user.click(screen.getByRole("button", { name: "우유 사기 수정" }));
+    const input = screen.getByRole("textbox", { name: "우유 사기 제목 편집" });
+    fireEvent.change(input, { target: { value: "장보" } });
+    fireEvent.keyDown(input, { key: "Enter", isComposing: true });
+
+    expect(onUpdate).not.toHaveBeenCalled();
+    expect(input).toBeInTheDocument();
   });
 
   it("blur로 제목을 저장한다", async () => {
